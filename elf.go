@@ -2,6 +2,7 @@ package main
 
 import (
 	"debug/elf"
+	"fmt"
 )
 
 func loadElfFile(binPath string) {
@@ -16,6 +17,6 @@ func loadElfFile(binPath string) {
 		panic(err)
 	}
 	for index, symbol := range symbols {
-		println(index, symbol.Name)
+		fmt.Printf("%d %s\n", index, symbol.Name)
 	}
 }
