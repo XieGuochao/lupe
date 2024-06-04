@@ -2,10 +2,12 @@ package main
 
 import "fmt"
 
+//go:noinline
 func add(a, b int) int {
 	return a + b
 }
 
+//go:noinline
 func concatString(a, b string) string {
 	return a + b
 }
