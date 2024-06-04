@@ -2,18 +2,33 @@ package main
 
 import "flag"
 
+type Options struct {
+	BinPath string
+	List    bool
+	Verbose bool
+}
+
 func main() {
+	options := Options{}
+	flag.StringVar(&options.BinPath, "bin", "", "Binary path")
+	flag.BoolVar(&options.List, "list", false, "List symbols")
+	flag.BoolVar(&options.Verbose, "verbose", false, "Verbose output")
+
 	flag.Parse()
 
 	// Require at least one args
-	if len(flag.Args()) < 1 {
-		panic("at least one argument: <binary path>")
+	if options.BinPath == "" {
+		panic("Binary path is required.")
 	}
-	binPath := flag.Args()[len(flag.Args())-1]
 
-	handle(binPath)
+	handle(options)
 }
 
-func handle(binPath string) {
-	loadElfFile(binPath)
+func handle(options Options) {
+	elf := loadElfFile(options.BinPath)
+	defer elf.Close()
+
+	if options.List {
+		elf.ListSymbols()
+	}
 }
